@@ -1,9 +1,14 @@
 package com.example.apiprueba;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,6 +17,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.apiprueba.models.Coordinate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencsv.CSVReader;
 
 import org.json.JSONObject;
@@ -20,15 +33,34 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+    Button boton;
+    GoogleMap mapView;
     String api = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/95228f5172a6476487cea9ca7348bf58/MODIS_NRT/BOL/1/2023-10-05/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boton = findViewById(R.id.boton);
         getData();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Hola mundo", Toast.LENGTH_SHORT).show();
+
+                Circle ubicacion = mapView.addCircle(new CircleOptions()
+                        .center(new LatLng(-16.502656, -68.132009))
+                        .radius(100)
+                        .strokeColor(Color.argb(128, 255, 0, 0))
+                        .fillColor(Color.argb(128, 255, 0, 0)));
+
+                mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion.getCenter(), 15));
+            }
+        });
+
     }
 
     private void parseCSVToJSON(String csvData) {
@@ -91,5 +123,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         queue.add(stringRequest);
+    }
+
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mapView = googleMap;
     }
 }
