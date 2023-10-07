@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    String api = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/118bc88a20930a1b28c0dc5c5b706efe/MODIS_NRT/BOL/1/2023-10-05/";
+    String api = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/95228f5172a6476487cea9ca7348bf58/MODIS_NRT/BOL/1/2023-10-05/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
