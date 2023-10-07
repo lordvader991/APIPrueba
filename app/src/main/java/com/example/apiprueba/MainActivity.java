@@ -16,6 +16,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import com.example.apiprueba.models.Coordinate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<String[]> data = csvReader.readAll();
             csvReader.close();
 
-            List<String> coordinatesList = new ArrayList<>();
+            List<Coordinate> coordinatesList = new ArrayList<>();
             String[] headers = data.get(0);
 
             int latitudeIndex = -1;
@@ -89,12 +91,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String latitude = "\"" + row[latitudeIndex] + "\"";
                     String longitude = "\"" + row[longitudeIndex] + "\"";
                     String coordinates = latitude + ", " + longitude;
-                    coordinatesList.add(coordinates);
+                    coordinatesList.add(new Coordinate("BOL",
+                                                Double.parseDouble(latitude),
+                                                Double.parseDouble(longitude)));
                 }
             }
 
-            for (String coordinates : coordinatesList) {
-                Log.d("coordenadas", coordinates);
+            for (Coordinate coordinates : coordinatesList) {
+                Log.d("coordenadas", coordinates.toString());
             }
 
         } catch (Exception e) {
