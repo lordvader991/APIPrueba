@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button boton;
     GoogleMap mapView;
     String api = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/95228f5172a6476487cea9ca7348bf58/MODIS_NRT/BOL/1/2023-10-05/";
-
+    List<Coordinate> coordinatesList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +52,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Hola mundo", Toast.LENGTH_SHORT).show();
 
-                Circle ubicacion = mapView.addCircle(new CircleOptions()
-                        .center(new LatLng(-16.502656, -68.132009))
-                        .radius(100)
-                        .strokeColor(Color.argb(128, 255, 0, 0))
-                        .fillColor(Color.argb(128, 255, 0, 0)));
 
-                mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion.getCenter(), 15));
+                for (Coordinate coordinates : coordinatesList) {
+                    Circle ubicacion = mapView.addCircle(new CircleOptions()
+                            .center(new LatLng(coordinates.latitude,coordinates.longitude))
+                            .radius(100)
+                            .strokeColor(Color.argb(128, 255, 0, 0))
+                            .fillColor(Color.argb(128, 255, 0, 0)));
+                    mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion.getCenter(), 15));
+                    Log.d("coordenadas", coordinates.toString());
+                }
             }
         });
 
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<String[]> data = csvReader.readAll();
             csvReader.close();
 
-            List<Coordinate> coordinatesList = new ArrayList<>();
+            coordinatesList.clear();
             String[] headers = data.get(0);
 
             int latitudeIndex = -1;
