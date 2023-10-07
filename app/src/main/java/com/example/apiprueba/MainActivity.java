@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.example.apiprueba.models.Coordinate;
 import com.opencsv.CSVReader;
 
 import org.json.JSONObject;
