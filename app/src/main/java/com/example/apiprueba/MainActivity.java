@@ -76,28 +76,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             coordinatesList.clear();
             String[] headers = data.get(0);
 
-            int latitudeIndex = -1;
-            int longitudeIndex = -1;
+            //int latitudeIndex = -1;
+            //int longitudeIndex = -1;
 
-            for (int i = 0; i < headers.length; i++) {
-                if ("latitude".equals(headers[i])) {
-                    latitudeIndex = i;
-                } else if ("longitude".equals(headers[i])) {
-                    longitudeIndex = i;
-                }
-            }
+            //for (int i = 0; i < headers.length; i++) {
+            //    if ("latitude".equals(headers[i])) {
+            //        latitudeIndex = i;
+            //    } else if ("longitude".equals(headers[i])) {
+            //        longitudeIndex = i;
+            //    }
+            //}
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-
-                // Check if latitude and longitude indices are found
-                if (latitudeIndex != -1 && longitudeIndex != -1) {
-                    String latitude = "\"" + row[latitudeIndex] + "\"";
-                    String longitude = "\"" + row[longitudeIndex] + "\"";
-                    String coordinates = latitude + ", " + longitude;
-                    coordinatesList.add(new Coordinate("BOL",
-                                                Double.parseDouble(latitude),
-                                                Double.parseDouble(longitude)));
-                }
+                String latitude = row[1];//"\"" + row[1] + "\"";
+                String longitude = row[2]; //= "\"" + row[longitudeIndex] + "\"";
+                coordinatesList.add(new Coordinate("BOL",
+                        Double.parseDouble(latitude),
+                        Double.parseDouble(longitude)));
             }
 
             for (Coordinate coordinates : coordinatesList) {
